@@ -41,7 +41,7 @@ export default function Results() {
 
     }
     checkAlias()
-  }, [])
+  }, [alias])
 
 
   return null

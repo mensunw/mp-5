@@ -1,6 +1,5 @@
 'use client'
 import { useState } from 'react';
-import { useRouter, usePathname } from 'next/navigation'
 import { Card, CardTitle, CardDescription } from "@/components/ui/card"
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
@@ -11,12 +10,6 @@ export default function CreateCard() {
   const [alias, setAlias] = useState<string>('');
   const [url, setUrl] = useState<string>('');
   const [res, setRes] = useState<string>('');
-
-  // get current path
-  const pathname = usePathname();
-
-  // for re-routing user to their search result (docs here: https://nextjs.org/docs/pages/building-your-application/routing/dynamic-routes)
-  const router = useRouter()
 
   async function getShortenedUrl() {
     try {
