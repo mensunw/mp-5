@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import './globals.css'
 import Header from "@/components/universal/Header"
+import { Toaster } from 'sonner'
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -20,6 +21,7 @@ export default function RootLayout({
         <Header />
         <hr />
         {children}
+        <Toaster position="bottom-right" richColors />
       </body>
     </html>
   );

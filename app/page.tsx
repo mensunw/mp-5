@@ -1,7 +1,8 @@
+import CreateCard from "@/components/CreateCard"
 export default function Home() {
   return (
     <>
-      hi
+      <CreateCard />
     </>
   );
 }

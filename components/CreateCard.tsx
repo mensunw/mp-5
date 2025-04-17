@@ -1,0 +1,53 @@
+'use client'
+import { useState, useEffect } from 'react';
+import { Card, CardTitle, CardDescription } from "@/components/ui/card"
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button'
+import { toast } from 'sonner'
+
+export default function CreateCard() {
+  const [alias, setAlias] = useState<string>('');
+  const [url, setUrl] = useState<string>('');
+  const [error, setError] = useState<string>('');
+
+  async function getShortenedUrl() {
+    try {
+      // check if alias is inside collection
+
+      const params = new URLSearchParams({
+        alias: alias,
+        url: url,
+      });
+
+      // insert query into api call
+      const response = await (await fetch(`/api/createAlias?${params.toString()}`,
+        { method: "POST" }
+      )).json()
+
+      // error check
+      if (response.error) {
+        console.log(response.error)
+        toast.error(response.error);
+      } else {
+        console.log(response)
+        //setUrl(filteredIcons)
+      }
+    } catch (e) {
+      console.error(e);
+      toast.error("Something went wrong. Please try again.");
+    }
+  }
+
+  return (
+    <>
+      <Card className="m-auto mt-12 p-12 w-1/3">
+        <CardTitle>Shorten a URL</CardTitle>
+        <CardDescription>URL</CardDescription>
+        <Input onChange={(e) => setUrl(e.target.value)} placeholder="https://example.com/very/long/url"></Input>
+        <CardDescription>Custom Alias</CardDescription>
+        <Input onChange={(e) => setAlias(e.target.value)} placeholder="your-custom-alias"></Input>
+        <Button variant="default" onClick={() => (getShortenedUrl())}>Shorten</Button>
+      </Card>
+    </>
+  )
+}
