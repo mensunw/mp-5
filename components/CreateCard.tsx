@@ -1,14 +1,23 @@
 'use client'
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
+import { useRouter, usePathname } from 'next/navigation'
 import { Card, CardTitle, CardDescription } from "@/components/ui/card"
 import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button'
+import { Button } from '@/components/ui/button';
+import CopyButton from "@/components/CopyButton";
 import { toast } from 'sonner'
 
 export default function CreateCard() {
   const [alias, setAlias] = useState<string>('');
   const [url, setUrl] = useState<string>('');
-  const [error, setError] = useState<string>('');
+  const [res, setRes] = useState<string>('');
+
+  // get current path
+  const pathname = usePathname();
+
+
+  // for re-routing user to their search result (docs here: https://nextjs.org/docs/pages/building-your-application/routing/dynamic-routes)
+  const router = useRouter()
 
   async function getShortenedUrl() {
     try {
@@ -30,7 +39,7 @@ export default function CreateCard() {
         toast.error(response.error);
       } else {
         console.log(response)
-        //setUrl(filteredIcons)
+        setRes(`${window.location.origin}/r/${alias}`)
       }
     } catch (e) {
       console.error(e);
@@ -47,6 +56,22 @@ export default function CreateCard() {
         <CardDescription>Custom Alias</CardDescription>
         <Input onChange={(e) => setAlias(e.target.value)} placeholder="your-custom-alias"></Input>
         <Button variant="default" onClick={() => (getShortenedUrl())}>Shorten</Button>
+        {res ? (
+          <Card className="p-2">
+            <CardDescription>Your shortened URL:</CardDescription>
+            <p>
+              <a href={res} target="_blank" className="underline">
+                {res}
+              </a>
+            </p>
+            <CopyButton value={res} />
+          </Card>
+        ) : (
+          <div>
+
+          </div>
+        )}
+
       </Card>
     </>
   )
