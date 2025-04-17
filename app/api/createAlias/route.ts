@@ -20,7 +20,7 @@ export async function POST(request: NextRequest) {
     const alias = searchParams.get('alias');
     const url = searchParams.get('url');
 
-    // 
+    // alias creation
     const a = {
       alias: alias,
       url: url
@@ -47,17 +47,20 @@ export async function POST(request: NextRequest) {
     }
 
     // insert into db
-
     const res = await aliasCollection.insertOne({ ...a })
-
+    // check if insertion was success
     if (!res.acknowledged) {
-      throw new Error("DB insert failed")
+      return NextResponse.json(
+        { error: `Database Error: Please try again later` },
+        { status: 500 }
+      );
     }
 
     // return data along with success status
     return NextResponse.json({ ...a, id: res.insertedId.toHexString() }, { status: 200 });
 
   } catch (e) {
+    // random or server error here
     console.error(e);
     return NextResponse.json(
       { error: 'Failed to fetch data, please try again another time' },

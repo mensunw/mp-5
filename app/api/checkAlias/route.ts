@@ -28,6 +28,7 @@ export async function GET(request: NextRequest) {
     });
 
   } catch (e) {
+    // random or server error here
     console.error(e);
     return NextResponse.json(
       { error: 'Failed to fetch data, please try again another time' },
