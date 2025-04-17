@@ -33,6 +33,7 @@ export default function CreateCard() {
       } else {
         // set the result to be shown if correct
         console.log(response)
+        toast.success("Successfully created link!");
         setRes(`${window.location.origin}/r/${alias}`)
       }
     } catch (e) {
